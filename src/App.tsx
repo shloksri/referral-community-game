@@ -1,10 +1,18 @@
 import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import './App.css'
+import reactHydLogo from './assets/ReactHydLandscapeLogo.jpg'
 import { Icon } from './icons'
 import { allTechnologies, demoPeople, experienceBands, industries, technologyCategories, type Person } from './data'
 
-type Route = 'home' | 'register' | 'graph' | 'challenge' | 'admin'
-const getRoute = (): Route => { const value = window.location.pathname.slice(1); return (['register', 'graph', 'challenge', 'admin'].includes(value) ? value : 'home') as Route }
+type Route = 'home' | 'register' | 'graph' | 'challenge' | 'admin' | 'team'
+const getRoute = (): Route => { const value = window.location.pathname.slice(1); return (['register', 'graph', 'challenge', 'admin', 'team'].includes(value) ? value : 'home') as Route }
+
+const teamMembers = [
+  { name: 'Shlok Srivastava', designation: 'Senior Software Engineer', linkedin: 'https://www.linkedin.com/in/shloksri/' },
+  { name: 'Samhita Vetcha', designation: 'Senior Software Engineer', linkedin: 'https://www.linkedin.com/in/samhita-vetcha/' },
+  { name: 'Dilip Kumar', designation: 'Software Engineer', linkedin: 'https://www.linkedin.com/in/dilip-kashyap/' },
+  { name: 'Imtiyaz Alam', designation: 'Package Designer', linkedin: 'https://www.linkedin.com/in/imtiyaz865/' },
+]
 
 function Logo() {
   return <a className="brand" href="/" data-link><span className="brand-mark"><i /><i /><i /></span><span>Find your <strong>connections</strong></span></a>
@@ -15,7 +23,11 @@ function Shell({ children, route }: { children: ReactNode; route: Route }) {
   return <div className="app-shell">
     <header className="topbar"><Logo /><button className="menu-button" aria-label="Toggle navigation" onClick={() => setOpen(!open)}><Icon name={open ? 'close' : 'menu'} /></button>
       <nav className={open ? 'nav open' : 'nav'}>{[['home', 'Home'], ['graph', 'Live graph'], ['challenge', 'Challenges']].map(([path, label]) => <a key={path} className={route === path ? 'active' : ''} href={path === 'home' ? '/' : `/${path}`} data-link>{label}</a>)}<a className="nav-cta" href="/register" data-link>Join the graph <Icon name="arrow" /></a></nav>
-    </header>{children}
+    </header>
+    <div className="app-content">{children}</div>
+    <footer className="site-footer">
+      <p><span>Built with ❤️ by the <a href="/team" data-link>React Hyderabad Team</a></span></p>
+    </footer>
   </div>
 }
 
@@ -106,6 +118,26 @@ function LiveGraph() {
   return <main className="graph-page"><section className="graph-header"><div><div className="eyebrow"><span/> LIVE COMMUNITY MAP</div><h1>Explore the room.</h1><p>Search by technology, experience, or intent. No Cypher required.</p></div><div className="graph-stats"><div><strong>{loading?'—':people.length}</strong><span>developers</span></div><div><strong>{loading?'—':techCount}</strong><span>technologies</span></div><div><strong>{loading?'—':connectionCount}</strong><span>connections</span></div></div></section><section className="query-builder"><div className="query-label"><Icon name="search"/><span>Find people who</span></div><select disabled={loading} value={relationship} onChange={e=>setRelationship(e.target.value)}><option>Uses</option><option>Interested in</option><option>Primary technology</option></select><select disabled={loading} value={technology} onChange={e=>setTechnology(e.target.value)}><option>All technologies</option>{allTechnologies.map(t=><option key={t}>{t}</option>)}</select><select disabled={loading} value={experience} onChange={e=>setExperience(e.target.value)}><option>Any experience</option>{experienceBands.map(x=><option key={x}>{x}</option>)}</select><span className="result-count">{loading?'Loading…':graphError?'Unavailable':`${filtered.length} matches`}</span></section><section className="graph-workspace"><div className="graph-legend"><span><i className="person-dot"/> Person</span><span><i className="tech-dot"/> Technology</span><span><i className="interest-dot"/> Learning interest</span></div>{loading?<div className="network-loader" role="status"><span className="loader-network"><i/><i/><i/></span><h2>Your network loading....</h2><p>Finding your community connections</p></div>:graphError?<div className="empty-state" role="alert"><Icon name="close"/><h2>Could not load connections</h2><p>{graphError}</p></div>:<GraphCanvas people={filtered} selected={selected} onSelect={setSelected}/>} {!loading&&!graphError&&person&&<aside className="person-panel"><button onClick={()=>setSelected(undefined)}><Icon name="close"/></button><div className="person-avatar">{person.name.split(' ').map(x=>x[0]).join('')}</div><p className="eyebrow">COMMUNITY MEMBER</p><h2>{person.name}</h2><p>{person.role ? `${person.role} · ` : ''}{person.experience} · {person.industry}</p><dl><dt>Primary</dt><dd>{person.primary}</dd><dt>Also uses</dt><dd>{person.uses.filter(x=>x!==person.primary).join(' · ')}</dd><dt>Learning</dt><dd>{person.interests.join(' · ')}</dd></dl></aside>}{!loading&&!graphError&&!filtered.length&&<div className="empty-state"><Icon name="search"/><h2>No connections found</h2><p>Try removing a filter or choosing another technology.</p></div>}</section></main>
 }
 
+function Team() {
+  return <main className="team-page">
+    <a className="team-logo" href="https://www.linkedin.com/company/reacthyderabad/" target="_blank" rel="noreferrer" aria-label="React Hyderabad on LinkedIn">
+      <img src={reactHydLogo} alt="React Hyderabad" width={420} height={210} />
+    </a>
+    {/* <p className="eyebrow"><span /> The organizers</p> */}
+    <h1>React Hyderabad<br /><em>Team</em></h1>
+    <p>The people behind this community experience.</p>
+    <ul className="team-grid">
+      {teamMembers.map(member => <li key={member.name}>
+        {/* <div className="person-avatar" aria-hidden="true">{member.name.split(' ').map(part => part[0]).join('')}</div> */}
+        <h2>{member.name}</h2>
+        <p>{member.designation}</p>
+        <a href={member.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+      </li>)}
+    </ul>
+    <a className="button primary" href="/" data-link>Back to Home</a>
+  </main>
+}
+
 function Challenges() {
   const missions=[{level:'01',title:'Find your overlap',text:'Meet someone who uses one of your learning interests.',tag:'Warm-up',color:'cyan'},{level:'02',title:'Cross the stack',text:'Find someone with a different primary technology.',tag:'Explorer',color:'purple'},{level:'03',title:'Leave your bubble',text:'Find someone who shares your primary technology but works in another industry.',tag:'Connector',color:'orange'},{level:'04',title:'Trace the path',text:'Find the shortest connection between React and GraphRAG.',tag:'Graph thinker',color:'pink'}]
   return <main className="challenge-page"><section><p className="eyebrow">NETWORKING MISSIONS</p><h1>Turn the graph into<br/><em>real conversations.</em></h1><p>Four missions. One room full of possible connections. Pick a challenge and go find your person.</p></section><div className="challenge-grid">{missions.map((m,i)=><article key={m.level} className={m.color}><div><span>LEVEL {m.level}</span><small>{m.tag}</small></div><h2>{m.title}</h2><p>{m.text}</p><a href="/graph" data-link>Start challenge <Icon name="arrow"/></a><b>0{i+1}</b></article>)}</div></main>
@@ -121,5 +153,5 @@ function Admin() {
 export default function App() {
   const [route,setRoute]=useState<Route>(getRoute())
   useEffect(()=>{const click=(e:MouseEvent)=>{const anchor=(e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-link]');if(!anchor||anchor.target)return;e.preventDefault();history.pushState({},'',anchor.href);setRoute(getRoute());window.scrollTo(0,0)};const pop=()=>setRoute(getRoute());document.addEventListener('click',click);window.addEventListener('popstate',pop);return()=>{document.removeEventListener('click',click);window.removeEventListener('popstate',pop)}},[])
-  return <Shell route={route}>{route==='home'?<Home/>:route==='register'?<Register/>:route==='graph'?<LiveGraph/>:route==='challenge'?<Challenges/>:<Admin/>}</Shell>
+  return <Shell route={route}>{route==='home'?<Home/>:route==='register'?<Register/>:route==='graph'?<LiveGraph/>:route==='challenge'?<Challenges/>:route==='team'?<Team/>:<Admin/>}</Shell>
 }
