@@ -67,10 +67,10 @@ function Register() {
           const message = typeof body === 'object' && body !== null && 'error' in body && typeof body.error === 'string' ? body.error : 'Could not connect to the database. Check the server configuration.'
           throw new Error(message)
         }
-        setConnectionStatus({ state: 'connected', message: 'Database connection is working. Registrations will be saved.' })
+        setConnectionStatus({ state: 'connected', message: 'You are Connected... Please fill the form' })
       } catch (error) {
         if (controller.signal.aborted) return
-        setConnectionStatus({ state: 'error', message: error instanceof Error ? error.message : 'Could not check the database connection.' })
+        setConnectionStatus({ state: 'error', message: error instanceof Error ? error.message : 'Could not connect.' })
       }
     }
     void checkConnection()
@@ -99,7 +99,7 @@ function Register() {
   if (submitted) return <main className="success-page"><div className="success-orbit"><Icon name="check"/></div><p className="eyebrow">YOU’RE IN</p><h1>You’re part of the graph.</h1><p>Your node is now connected to the community. Head to the live graph to see where you fit.</p><div><a className="button primary" href="/graph" data-link>Find my connections <Icon name="arrow"/></a></div></main>
   return <main className="register-page"><aside><p className="eyebrow">JOIN THE COMMUNITY GRAPH</p><h1>Your stack.<br/><em>Your interests.</em><br/>Your connections.</h1><p>It takes less than a minute. Your email is only used to prevent duplicate entries and is never shown publicly.</p><NetworkArt compact/></aside><form className="registration-form" onSubmit={submit}><div className="form-head"><span>01</span><div><h2>About you</h2><p>Only your name and email are required.</p></div></div>
 
-  {/* <p className={`connection-status ${connectionStatus.state}`} role={connectionStatus.state === 'error' ? 'alert' : 'status'}>{connectionStatus.message}</p> */}
+  <p className={`connection-status ${connectionStatus.state}`} role={connectionStatus.state === 'error' ? 'alert' : 'status'}>{connectionStatus.message}</p>
   
   <div className="two-col"><label>Name<input required name="name" placeholder="Your name"/></label><label>Email<input required type="email" name="email" placeholder="you@example.com"/></label></div><div className="two-col"><label>LinkedIn (optional)<input type="url" name="linkedin" placeholder="https://linkedin.com/in/your-profile"/></label><label>Role (optional)<input name="role" maxLength={100} placeholder="e.g. Full stack engineer"/></label></div><div className="two-col"><label>Work experience (optional)<select name="experience" defaultValue=""><option value="">Select range</option>{experienceBands.map(x => <option key={x}>{x}</option>)}</select></label><label>Industry (optional)<select name="industry" defaultValue=""><option value="">Select industry</option>{industries.map(x => <option key={x}>{x}</option>)}</select></label></div><div className="form-head"><span>02</span><div><h2>Your toolkit</h2><p>Select any technologies you actively use.</p></div></div><TechPicker label="Technologies I use (optional)" selected={uses} onChange={setUses}/><div className="form-head"><span>03</span><div><h2>What’s next?</h2><p>Choose any technologies you want to learn.</p></div></div><TechPicker label="Learning interests (optional)" selected={interests} onChange={setInterests}/>{submitError&&<p className="form-error" role="alert">{submitError}</p>}<button className="button primary submit" disabled={busy}>{busy ? 'Connecting…' : 'Add me to the graph'} <Icon name="arrow"/></button></form></main>
 }
