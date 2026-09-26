@@ -25,15 +25,15 @@ export const allTechnologies = technologyCategories.flatMap((category) => catego
 export const industries = ['FinTech', 'Healthcare', 'E-commerce', 'Education', 'SaaS', 'Government', 'Consulting', 'Manufacturing', 'Media', 'Telecommunications', 'Other']
 export const experienceBands = ['Student', '0–2 years', '3–5 years', '6–10 years', '10+ years']
 
-export type Person = { id: string; name: string; email?: string; role?: string; experience: string; industry: string; primary: string; uses: string[]; interests: string[] }
+export type Person = { id: string; name: string; email?: string; linkedin?: string; role?: string; experience?: string; industry?: string; uses: string[]; interests: string[] }
 
 export const demoPeople: Person[] = [
-  { id: 'p1', name: 'Aarav Mehta', experience: '10+ years', industry: 'FinTech', primary: 'React', uses: ['React', 'TypeScript', 'Node.js', 'AWS'], interests: ['GraphRAG', 'Neo4j Graph Data Science'] },
-  { id: 'p2', name: 'Maya Rao', experience: '6–10 years', industry: 'Healthcare', primary: 'Python', uses: ['Python', 'FastAPI', 'PostgreSQL', 'Docker'], interests: ['Neo4j', 'Knowledge Graphs'] },
-  { id: 'p3', name: 'Kabir Shah', experience: '3–5 years', industry: 'SaaS', primary: 'Neo4j', uses: ['Neo4j', 'Cypher', 'Java', 'Spring Boot'], interests: ['GraphRAG', 'Generative AI'] },
-  { id: 'p4', name: 'Diya Iyer', experience: '0–2 years', industry: 'Education', primary: 'React', uses: ['React', 'JavaScript', 'Tailwind CSS', 'Vite'], interests: ['TypeScript', 'Neo4j'] },
-  { id: 'p5', name: 'Vihaan Reddy', experience: '10+ years', industry: 'Consulting', primary: 'Java', uses: ['Java', 'Spring Boot', 'Neo4j', 'Kubernetes'], interests: ['AI Agents', 'Graph Algorithms'] },
-  { id: 'p6', name: 'Anaya Singh', experience: '3–5 years', industry: 'E-commerce', primary: 'Node.js', uses: ['Node.js', 'TypeScript', 'React', 'MongoDB'], interests: ['Cypher', 'Knowledge Graphs'] },
-  { id: 'p7', name: 'Arjun Nair', experience: '6–10 years', industry: 'Media', primary: 'Python', uses: ['Python', 'PyTorch', 'Pandas', 'AWS'], interests: ['GraphRAG', 'Neo4j'] },
-  { id: 'p8', name: 'Saanvi Gupta', experience: '3–5 years', industry: 'FinTech', primary: 'React', uses: ['React', 'Next.js', 'TypeScript', 'PostgreSQL'], interests: ['Generative AI', 'LangChain'] },
+  { id: 'p1', name: 'Aarav Mehta', experience: '10+ years', industry: 'FinTech', uses: ['React', 'TypeScript', 'Node.js', 'AWS'], interests: ['GraphRAG', 'Neo4j Graph Data Science'] },
+  { id: 'p2', name: 'Maya Rao', experience: '6–10 years', industry: 'Healthcare', uses: ['Python', 'FastAPI', 'PostgreSQL', 'Docker'], interests: ['Neo4j', 'Knowledge Graphs'] },
+  { id: 'p3', name: 'Kabir Shah', experience: '3–5 years', industry: 'SaaS', uses: ['Neo4j', 'Cypher', 'Java', 'Spring Boot'], interests: ['GraphRAG', 'Generative AI'] },
+  { id: 'p4', name: 'Diya Iyer', experience: '0–2 years', industry: 'Education', uses: ['React', 'JavaScript', 'Tailwind CSS', 'Vite'], interests: ['TypeScript', 'Neo4j'] },
+  { id: 'p5', name: 'Vihaan Reddy', experience: '10+ years', industry: 'Consulting', uses: ['Java', 'Spring Boot', 'Neo4j', 'Kubernetes'], interests: ['AI Agents', 'Graph Algorithms'] },
+  { id: 'p6', name: 'Anaya Singh', experience: '3–5 years', industry: 'E-commerce', uses: ['Node.js', 'TypeScript', 'React', 'MongoDB'], interests: ['Cypher', 'Knowledge Graphs'] },
+  { id: 'p7', name: 'Arjun Nair', experience: '6–10 years', industry: 'Media', uses: ['Python', 'PyTorch', 'Pandas', 'AWS'], interests: ['GraphRAG', 'Neo4j'] },
+  { id: 'p8', name: 'Saanvi Gupta', experience: '3–5 years', industry: 'FinTech', uses: ['React', 'Next.js', 'TypeScript', 'PostgreSQL'], interests: ['Generative AI', 'LangChain'] },
 ]
